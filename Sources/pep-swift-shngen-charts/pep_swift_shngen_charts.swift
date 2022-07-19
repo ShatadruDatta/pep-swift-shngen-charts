@@ -34,7 +34,7 @@ public struct LineChartView: View {
     
     public var body: some View {
         ZStack {
-            if #available(macOS 11.0, *) {
+            if #available(macOS 14.0, *) {
                 LineView(dataPoints: dataPoints, lineWidth: lineWidth)
                     .accentColor(lineColor)
             } else {
