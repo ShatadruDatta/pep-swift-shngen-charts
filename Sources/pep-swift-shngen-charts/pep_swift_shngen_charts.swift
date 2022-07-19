@@ -34,12 +34,7 @@ public struct LineChartView: View {
     
     public var body: some View {
         ZStack {
-            if #available(macOS 14.0, *) {
-                LineView(dataPoints: dataPoints, lineWidth: lineWidth)
-                    .accentColor(lineColor)
-            } else {
-                // Fallback on earlier versions
-            }
+            LineView(dataPoints: dataPoints, lineWidth: lineWidth, lineColor: lineColor)
         }
     }
 }
@@ -51,6 +46,7 @@ public struct LineChartView: View {
 public struct LineView: View {
     var dataPoints: [Double]
     var lineWidth: CGFloat
+    var lineColor: Color
     var highestPoint: Double {
         let max = dataPoints.max() ?? 1.0
         if max == 0 { return 1.0 }
@@ -71,7 +67,7 @@ public struct LineView: View {
                         y: height * self.ratio(for: index)))
                 }
             }
-            .stroke(Color.accentColor, style: StrokeStyle(lineWidth: lineWidth, lineJoin: .round))
+            .stroke(lineColor, style: StrokeStyle(lineWidth: lineWidth, lineJoin: .round))
         }
         .padding(.vertical)
     }
