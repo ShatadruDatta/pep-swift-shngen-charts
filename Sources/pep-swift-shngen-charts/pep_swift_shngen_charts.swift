@@ -23,6 +23,7 @@ public struct BarChartView: View {
 
 // MARK: LineChartView
 @available(macOS 10.15, *)
+@available(iOS 13.0.0, *)
 public struct LineChartView: View {
     
     var dataPoints: [Double]
@@ -31,7 +32,6 @@ public struct LineChartView: View {
     var outerCircleColor: Color = .red
     var innerCircleColor: Color = .white
     
-    @available(iOS 13.0.0, *)
     public var body: some View {
         ZStack {
             if #available(macOS 11.0, *) {
@@ -47,6 +47,7 @@ public struct LineChartView: View {
 
 // MARK: LineView
 @available(macOS 10.15, *)
+@available(iOS 13.0.0, *)
 public struct LineView: View {
     var dataPoints: [Double]
     var lineWidth: CGFloat
@@ -56,7 +57,6 @@ public struct LineView: View {
         return max
     }
     
-    @available(iOS 13.0.0, *)
     public var body: some View {
         GeometryReader { geometry in
             let height = geometry.size.height
@@ -84,6 +84,7 @@ public struct LineView: View {
 
 // MARK: LineChartCircleView
 @available(macOS 10.15, *)
+@available(iOS 13.0.0, *)
 struct LineChartCircleView: View {
     var dataPoints: [Double]
     var radius: CGFloat
@@ -94,7 +95,6 @@ struct LineChartCircleView: View {
         return max
     }
     
-    @available(iOS 13.0.0, *)
     public var body: some View {
         GeometryReader { geometry in
             let height = geometry.size.height
