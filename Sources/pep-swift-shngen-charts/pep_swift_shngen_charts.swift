@@ -32,6 +32,14 @@ public struct LineChartView: View {
     var outerCircleColor: Color = .red
     var innerCircleColor: Color = .white
     
+    public init(dataPoints: [Double], lineColor: Color, lineWidth: CGFloat, outerCircleColor: Color, innerCircleColor: Color) {
+        self.dataPoints = dataPoints
+        self.lineColor = lineColor
+        self.lineWidth = lineWidth
+        self.outerCircleColor = outerCircleColor
+        self.innerCircleColor = innerCircleColor
+    }
+    
     public var body: some View {
         ZStack {
             LineView(dataPoints: dataPoints, lineWidth: lineWidth, lineColor: lineColor)
@@ -52,7 +60,7 @@ public struct LineView: View {
         if max == 0 { return 1.0 }
         return max
     }
-    
+        
     public var body: some View {
         GeometryReader { geometry in
             let height = geometry.size.height
