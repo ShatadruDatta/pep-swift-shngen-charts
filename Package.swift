@@ -20,9 +20,6 @@ let package = Package(
         // Targets can depend on other targets in this package, and on products in packages this package depends on.
         .target(
             name: "pep-swift-shngen-charts",
-            dependencies: []),
-        .testTarget(
-            name: "pep-swift-shngen-chartsTests",
-            dependencies: ["pep-swift-shngen-charts"]),
+            dependencies: [])
     ]
 )
