@@ -42,7 +42,7 @@ public struct BarChartView: View {
                     Spacer()
                 }
             }
-            .offset(y: 20)
+            .offset(y: -20)
             ForEach(chartData, id: \.self) { val in
                 Spacer()
                 let yvalue = Swift.min(CGFloat(Double((Int(frameHeight) * val.y_axis))/maxRange), frameHeight)
