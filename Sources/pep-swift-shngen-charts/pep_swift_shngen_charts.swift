@@ -7,7 +7,7 @@ public struct BarChartView: View {
     var chartData: [BarChartData]
     var highRange: Double
     var maxRange: Double
-    var difference: Double
+    var diff: Double
     var frameHeight: Double
     var frameWidth: Double
     var barWidth: Double
@@ -17,11 +17,11 @@ public struct BarChartView: View {
     var x_axis_fontColor: Color
     var y_axis_fontColor: Color
     
-    public init(chartData: [BarChartData], highRange: Double, maxRange: Double, difference: Double, frameHeight: Double, frameWidth: Double, barWidth: Double, barBackgroundColor: Color, barForegroundColor: Color, barCornerRadius: Double, x_axis_fontColor: Color, y_axis_fontColor: Color) {
+    public init(chartData: [BarChartData], highRange: Double, maxRange: Double, diff: Double, frameHeight: Double, frameWidth: Double, barWidth: Double, barBackgroundColor: Color, barForegroundColor: Color, barCornerRadius: Double, x_axis_fontColor: Color, y_axis_fontColor: Color) {
         self.chartData = chartData
         self.highRange = highRange
         self.maxRange = maxRange
-        self.difference = difference
+        self.diff = diff
         self.frameHeight = frameHeight
         self.frameWidth = frameWidth
         self.barWidth = barWidth
@@ -35,7 +35,7 @@ public struct BarChartView: View {
     public var body: some View {
         HStack(alignment: .lastTextBaseline) {
             VStack {
-                ForEach(Array(stride(from: 0, to: highRange, by: difference)).reversed(), id: \.self) { index in // (Step == 5) not 1
+                ForEach(Array(stride(from: 0, to: highRange, by: diff)).reversed(), id: \.self) { index in // (Step == 5) not 1
                     Spacer()
                     Text("$\(index)").foregroundColor(y_axis_fontColor)
                     //.regular(size: 11.0, color: SPColor.lightGreyText)
