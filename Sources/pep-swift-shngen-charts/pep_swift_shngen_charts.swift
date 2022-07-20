@@ -250,4 +250,10 @@ public struct PieChartData: Hashable {
     var percent: Double
     var description: String
     var color: Color
+    
+    public init(percent: Double, description: String, color: Color) {
+        self.percent = percent
+        self.description = description
+        self.color = color
+    }
 }
