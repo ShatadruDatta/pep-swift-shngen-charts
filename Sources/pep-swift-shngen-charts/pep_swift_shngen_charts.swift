@@ -37,11 +37,12 @@ public struct BarChartView: View {
             VStack {
                 ForEach(Array(stride(from: 0, to: highRange, by: diff)).reversed(), id: \.self) { index in // (Step == 5) not 1
                     Spacer()
-                    Text("$\(index)").foregroundColor(y_axis_fontColor).offset(y: 20)
+                    Text("$\(index)").foregroundColor(y_axis_fontColor)
                     //.regular(size: 11.0, color: SPColor.lightGreyText)
                     Spacer()
                 }
             }
+            .offset(y: 20)
             ForEach(chartData, id: \.self) { val in
                 Spacer()
                 let yvalue = Swift.min(CGFloat(Double((Int(frameHeight) * val.y_axis))/maxRange), frameHeight)
