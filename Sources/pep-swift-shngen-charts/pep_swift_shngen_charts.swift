@@ -20,7 +20,6 @@ public struct BarChartView: View {
 }
 
 
-
 // MARK: LineChartView
 @available(macOS 10.15, *)
 @available(iOS 13.0.0, *)
@@ -32,7 +31,7 @@ public struct LineChartView: View {
     var outerCircleColor: Color = .red
     var innerCircleColor: Color = .white
     
-    public init(dataPoints: [Double], lineColor: Color, lineWidth: CGFloat, outerCircleColor: Color, innerCircleColor: Color) {
+    public init(dataPoints: [Double], lineColor: Color, lineWidth: CGFloat, outerCircleColor: Color = .red, innerCircleColor: Color = .white) {
         self.dataPoints = dataPoints
         self.lineColor = lineColor
         self.lineWidth = lineWidth
