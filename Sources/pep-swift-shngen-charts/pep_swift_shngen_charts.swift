@@ -145,16 +145,20 @@ public struct CircularProgressBar: View {
     var strokeBackgroundColor: Color
     var strokeForegroundColor: Color
     var loadingTimeInterval: CGFloat
-    var isLandscape: Bool
+    var width: CGFloat
+    var height: CGFloat
+    var txtValue: String
     
-    public init(circleProgress: CGFloat, strokeBackgroundWidth: CGFloat, strokeForegroundWidth: CGFloat, strokeBackgroundColor: Color, strokeForegroundColor: Color, loadingTimeInterval: CGFloat, isLandscape: Bool) {
+    public init(circleProgress: CGFloat, strokeBackgroundWidth: CGFloat, strokeForegroundWidth: CGFloat, strokeBackgroundColor: Color, strokeForegroundColor: Color, loadingTimeInterval: CGFloat, width: CGFloat, height: CGFloat, txtValue: String) {
         self.circleProgress = circleProgress
         self.strokeBackgroundColor = strokeBackgroundColor
         self.strokeBackgroundWidth = strokeBackgroundWidth
         self.strokeForegroundColor = strokeForegroundColor
         self.strokeForegroundWidth = strokeForegroundWidth
         self.loadingTimeInterval = loadingTimeInterval
-        self.isLandscape = isLandscape
+        self.width = width
+        self.height = height
+        self.txtValue = txtValue
     }
     
     public var body: some View {
@@ -162,13 +166,13 @@ public struct CircularProgressBar: View {
             ZStack {
                 Circle()
                     .stroke(strokeBackgroundColor, lineWidth: strokeBackgroundWidth)
-                    .frame(width: isLandscape ? 100 : 70, height: isLandscape ? 100 : 70)
+                    .frame(width: width, height: height)
                 Circle()
                     .trim(from: 0.0, to: circleProgress)
                     .stroke(strokeForegroundColor, lineWidth: strokeForegroundWidth)
-                    .frame(width: isLandscape ? 100 : 70, height: isLandscape ? 100 : 70)
+                    .frame(width: width, height: height)
                     .rotationEffect(Angle(degrees: -90))
-                Text("\(Int(self.circleProgress * 100))%")
+                Text(txtValue)
             }
         }
     }
