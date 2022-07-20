@@ -2,13 +2,12 @@ import SwiftUI
 import Foundation
 
 @available(macOS 10.15.0, *)
-
+@available(iOS 13.0.0, *)
 public struct BarChartView: View {
     public private(set) var text = "Hello, World!"
     
     public init() { }
     
-    @available(iOS 13.0.0, *)
     public var body: some View {
         VStack(alignment: .leading) {
             HStack(alignment: .top) {
@@ -176,4 +175,79 @@ public struct CircularProgressBar: View {
             }
         }
     }
+}
+
+
+// MARK: PieChartView
+@available(macOS 10.15, *)
+@available(iOS 13.0.0, *)
+public struct PieChart: View {
+    var pieData: [PieChartData]
+    var width: CGFloat
+    var height: CGFloat
+    
+    public init(pieData: [PieChartData], width: CGFloat, height: CGFloat) {
+        self.pieData = pieData
+        self.width = width
+        self.height = height
+    }
+    
+    public var body: some View {
+        ZStack {
+            ForEach(0..<pieData.count) { index in
+                let currentData = pieData[index]
+                let currentEnddegree = currentData.percent * 360
+                let lastDegree = pieData.prefix(index).map {
+                    $0.percent
+                }.reduce(0, +) * 360
+                
+                ZStack {
+                    PiceOfPie(startDegree: lastDegree, endDegree: lastDegree + currentEnddegree)
+                        .fill(currentData.color)
+                    GeometryReader { geometry in
+                        Text(currentData.description)
+                            .position(getLabelCoordinate(in: geometry.size, for: lastDegree + currentEnddegree/2))
+                            .foregroundColor(.white)
+                    }
+                }
+            }
+        }
+        .frame(width: width, height: height, alignment: .leading) // 240
+        
+    }
+    
+    private func getLabelCoordinate(in geoSize: CGSize, for degree: Double) -> CGPoint {
+        let center = CGPoint(x: geoSize.width / 2, y: geoSize.height / 2)
+        let radius = geoSize.width / 3
+        
+        let yCoordinate = radius * sin(CGFloat(degree) * (CGFloat.pi / 180))
+        let xCoordinate = radius * cos(CGFloat(degree) * (CGFloat.pi / 180))
+        return CGPoint(x: center.x + xCoordinate, y: center.y + yCoordinate)
+    }
+}
+
+// MARK: PieDraw
+@available(macOS 10.15, *)
+@available(iOS 13.0.0, *)
+public struct PiceOfPie: Shape {
+    let startDegree: Double
+    let endDegree: Double
+    public func path(in rect: CGRect) -> Path {
+        Path { pie in
+            let center = CGPoint(x: rect.midX, y: rect.midY)
+            pie.move(to: center)
+            pie.addArc(center: center, radius: rect.width/2, startAngle: Angle(degrees: startDegree), endAngle: Angle(degrees: endDegree), clockwise: false)
+            pie.closeSubpath()
+        }
+    }
+}
+
+
+// MARK: PieModelClass
+@available(macOS 10.15, *)
+@available(iOS 13.0.0, *)
+public struct PieChartData: Hashable {
+    var percent: Double
+    var description: String
+    var color: Color
 }
