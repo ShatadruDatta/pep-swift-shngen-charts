@@ -4,18 +4,82 @@ import Foundation
 @available(macOS 10.15.0, *)
 @available(iOS 13.0.0, *)
 public struct BarChartView: View {
-    public private(set) var text = "Hello, World!"
+    var chartData: [BarChartData]
+    var highRange: Double
+    var maxRange: Double
+    var difference: Double
+    var frameHeight: Double
+    var frameWidth: Double
+    var barWidth: Double
+    var barBackgroundColor: Color
+    var barForegroundColor: Color
+    var barCornerRadius: Double
+    var x_axis_fontColor: Color
+    var y_axis_fontColor: Color
     
-    public init() { }
+    public init(chartData: [BarChartData], highRange: Double, maxRange: Double, difference: Double, frameHeight: Double, frameWidth: Double, barWidth: Double, barBackgroundColor: Color, barForegroundColor: Color, barCornerRadius: Double, x_axis_fontColor: Color, y_axis_fontColor: Color) {
+        self.chartData = chartData
+        self.highRange = highRange
+        self.maxRange = maxRange
+        self.difference = difference
+        self.frameHeight = frameHeight
+        self.frameWidth = frameWidth
+        self.barWidth = barWidth
+        self.barBackgroundColor = barBackgroundColor
+        self.barForegroundColor = barForegroundColor
+        self.barCornerRadius = barCornerRadius
+        self.x_axis_fontColor = x_axis_fontColor
+        self.y_axis_fontColor = y_axis_fontColor
+    }
     
     public var body: some View {
-        VStack(alignment: .leading) {
-            HStack(alignment: .top) {
-                Text("Hello")
-                Text("Shatadru")
-                Text("How are you !!!")
+        HStack(alignment: .lastTextBaseline) {
+            VStack {
+                ForEach(Array(stride(from: 0, to: highRange, by: difference)).reversed(), id: \.self) { index in // (Step == 5) not 1
+                    Spacer()
+                    Text("$\(index)").foregroundColor(y_axis_fontColor)
+                    //.regular(size: 11.0, color: SPColor.lightGreyText)
+                    Spacer()
+                }
+            }
+            ForEach(chartData, id: \.self) { val in
+                Spacer()
+                let yvalue = Swift.min(CGFloat(Double((Int(frameHeight) * val.y_axis))/maxRange), frameHeight)
+                Group {
+                    VStack {
+                        ZStack(alignment: .bottom) {
+                            Rectangle()
+                                .fill(barBackgroundColor)
+                                .frame(width: barWidth, height: frameHeight)
+                                .cornerRadius(barCornerRadius)
+                            Rectangle()
+                                .fill(barForegroundColor)
+                                .frame(width: barWidth, height: CGFloat(yvalue))
+                                .cornerRadius(barCornerRadius)
+                        }
+                        Text("\(val.x_axis)").foregroundColor(x_axis_fontColor)
+                        //                                    .regular(size: 11.0, color: x_axis_fontColor)
+                    }
+                }
+                Spacer()
+                //.frame(width: UIScreen.main.bounds.width/CGFloat(chartData.count + 10))
             }
         }
+        .frame(width: frameWidth + 60)
+    }
+}
+
+// MARK: ChartModelClass
+@available(macOS 10.15.0, *)
+@available(iOS 13.0.0, *)
+public struct BarChartData: Identifiable, Hashable {
+    public var id = UUID()
+    var x_axis: String
+    var y_axis: Int
+    
+    public init(x_axis: String, y_axis: Int) {
+        self.x_axis = x_axis
+        self.y_axis = y_axis
     }
 }
 
