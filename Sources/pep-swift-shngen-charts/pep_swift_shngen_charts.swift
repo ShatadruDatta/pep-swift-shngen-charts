@@ -8,7 +8,7 @@ public struct BarChartView: View {
     var highRange: Double
     var maxRange: Double
     var diff: Double
-    var frameHeight: Double
+    let frameHeight: Double = 250
     var frameWidth: Double
     var barWidth: Double
     var barBackgroundColor: Color
@@ -17,12 +17,11 @@ public struct BarChartView: View {
     var x_axis_fontColor: Color
     var y_axis_fontColor: Color
     
-    public init(chartData: [BarChartData], highRange: Double, maxRange: Double, diff: Double, frameHeight: Double, frameWidth: Double, barWidth: Double, barBackgroundColor: Color, barForegroundColor: Color, barCornerRadius: Double, x_axis_fontColor: Color, y_axis_fontColor: Color) {
+    public init(chartData: [BarChartData], highRange: Double, maxRange: Double, diff: Double, frameWidth: Double, barWidth: Double, barBackgroundColor: Color, barForegroundColor: Color, barCornerRadius: Double, x_axis_fontColor: Color, y_axis_fontColor: Color) {
         self.chartData = chartData
         self.highRange = highRange
         self.maxRange = maxRange
         self.diff = diff
-        self.frameHeight = frameHeight
         self.frameWidth = frameWidth
         self.barWidth = barWidth
         self.barBackgroundColor = barBackgroundColor
@@ -66,7 +65,7 @@ public struct BarChartView: View {
                 //.frame(width: UIScreen.main.bounds.width/CGFloat(chartData.count + 10))
             }
         }
-        .frame(width: frameWidth + 60)
+        .frame(width: frameWidth + 60, height: 300)
     }
 }
 
