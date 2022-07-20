@@ -37,7 +37,7 @@ public struct BarChartView: View {
             VStack {
                 ForEach(Array(stride(from: 0, to: highRange, by: diff)).reversed(), id: \.self) { index in // (Step == 5) not 1
                     Spacer()
-                    Text("$\(index)").foregroundColor(y_axis_fontColor)
+                    Text("$\(index)").foregroundColor(y_axis_fontColor).offset(y: 20)
                     //.regular(size: 11.0, color: SPColor.lightGreyText)
                     Spacer()
                 }
