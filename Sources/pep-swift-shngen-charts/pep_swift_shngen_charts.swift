@@ -1,4 +1,5 @@
 import SwiftUI
+import Foundation
 
 @available(macOS 10.15.0, *)
 
@@ -26,12 +27,12 @@ public struct BarChartView: View {
 public struct LineChartView: View {
     
     var dataPoints: [Double]
-    var lineColor: Color = .yellow
-    var lineWidth: CGFloat = 4.0
-    var outerCircleColor: Color = .red
-    var innerCircleColor: Color = .white
+    var lineColor: Color
+    var lineWidth: CGFloat
+    var outerCircleColor: Color
+    var innerCircleColor: Color
     
-    public init(dataPoints: [Double], lineColor: Color, lineWidth: CGFloat, outerCircleColor: Color = .red, innerCircleColor: Color = .white) {
+    public init(dataPoints: [Double], lineColor: Color, lineWidth: CGFloat, outerCircleColor: Color, innerCircleColor: Color) {
         self.dataPoints = dataPoints
         self.lineColor = lineColor
         self.lineWidth = lineWidth
@@ -59,7 +60,7 @@ public struct LineView: View {
         if max == 0 { return 1.0 }
         return max
     }
-        
+    
     public var body: some View {
         GeometryReader { geometry in
             let height = geometry.size.height
@@ -129,5 +130,46 @@ struct LineChartCircleView: View {
     
     private func ratio(for index: Int) -> Double {
         1 - (dataPoints[index] / highestPoint)
+    }
+}
+
+
+// MARK: CircularProgressView
+@available(macOS 10.15, *)
+@available(iOS 13.0.0, *)
+
+public struct CircularProgressBar: View {
+    var circleProgress: CGFloat
+    var strokeBackgroundWidth: CGFloat
+    var strokeForegroundWidth: CGFloat
+    var strokeBackgroundColor: Color
+    var strokeForegroundColor: Color
+    var loadingTimeInterval: CGFloat
+    var isLandscape: Bool
+    
+    public init(circleProgress: CGFloat, strokeBackgroundWidth: CGFloat, strokeForegroundWidth: CGFloat, strokeBackgroundColor: Color, strokeForegroundColor: Color, loadingTimeInterval: CGFloat, isLandscape: Bool) {
+        self.circleProgress = circleProgress
+        self.strokeBackgroundColor = strokeBackgroundColor
+        self.strokeBackgroundWidth = strokeBackgroundWidth
+        self.strokeForegroundColor = strokeForegroundColor
+        self.strokeForegroundWidth = strokeForegroundWidth
+        self.loadingTimeInterval = loadingTimeInterval
+        self.isLandscape = isLandscape
+    }
+    
+    public var body: some View {
+        VStack {
+            ZStack {
+                Circle()
+                    .stroke(strokeBackgroundColor, lineWidth: strokeBackgroundWidth)
+                    .frame(width: isLandscape ? 100 : 70, height: isLandscape ? 100 : 70)
+                Circle()
+                    .trim(from: 0.0, to: circleProgress)
+                    .stroke(strokeForegroundColor, lineWidth: strokeForegroundWidth)
+                    .frame(width: isLandscape ? 100 : 70, height: isLandscape ? 100 : 70)
+                    .rotationEffect(Angle(degrees: -90))
+                Text("\(Int(self.circleProgress * 100))%")
+            }
+        }
     }
 }
