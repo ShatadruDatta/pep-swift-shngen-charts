@@ -22,7 +22,7 @@ public struct BarChartView: View {
 //    var lineWidth: Double
 //    var lineChartRepresentation: String
     
-    //,, barChartRepresentation: String, showLineChart: Bool, lineChartColor: Color, lineWidth: Double, lineChartRepresentation: String
+    //,,, barChartRepresentation: String, showLineChart: Bool, lineChartColor: Color, lineWidth: Double, lineChartRepresentation: String
     
     public init(chartData: [BarChartData], highRange: Double, maxRange: Double, diff: Double, frameWidth: Double, barWidth: Double, barBackgroundColor: Color, barForegroundColor: Color, barCornerRadius: Double, x_axis_fontColor: Color, y_axis_fontColor: Color) {
         self.chartData = chartData
