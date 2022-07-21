@@ -16,8 +16,13 @@ public struct BarChartView: View {
     var barCornerRadius: Double
     var x_axis_fontColor: Color
     var y_axis_fontColor: Color
+    var barChartRepresentation: String
+    var showLineChart: Bool
+    var lineChartColor: Color
+    var lineWidth: Double
+    var lineChartRepresentation: String
     
-    public init(chartData: [BarChartData], highRange: Double, maxRange: Double, diff: Double, frameWidth: Double, barWidth: Double, barBackgroundColor: Color, barForegroundColor: Color, barCornerRadius: Double, x_axis_fontColor: Color, y_axis_fontColor: Color) {
+    public init(chartData: [BarChartData], highRange: Double, maxRange: Double, diff: Double, frameWidth: Double, barWidth: Double, barBackgroundColor: Color, barForegroundColor: Color, barCornerRadius: Double, x_axis_fontColor: Color, y_axis_fontColor: Color, barChartRepresentation: String, showLineChart: Bool, lineChartColor: Color, lineWidth: Double, lineChartRepresentation: String) {
         self.chartData = chartData
         self.highRange = highRange
         self.maxRange = maxRange
@@ -29,43 +34,76 @@ public struct BarChartView: View {
         self.barCornerRadius = barCornerRadius
         self.x_axis_fontColor = x_axis_fontColor
         self.y_axis_fontColor = y_axis_fontColor
+        self.barChartRepresentation = barChartRepresentation
+        self.showLineChart = showLineChart
+        self.lineChartColor = lineChartColor
+        self.lineWidth = lineWidth
+        self.lineChartRepresentation = lineChartRepresentation
     }
     
     public var body: some View {
-        HStack(alignment: .lastTextBaseline) {
-            VStack {
-                ForEach(Array(stride(from: 0, to: highRange, by: diff)).reversed(), id: \.self) { index in // (Step == 5) not 1
+        ZStack {
+            VStack(alignment: .leading) {
+                HStack(alignment: .center) {
                     Spacer()
-                    Text("$\(Int(index))").foregroundColor(y_axis_fontColor)
-                    //.regular(size: 11.0, color: SPColor.lightGreyText)
-                    Spacer()
+                    Circle()
+                        .fill(barForegroundColor)
+                        .frame(width: 9, height: 9)
+                    Text("")
+                    Circle()
+                        .fill(lineChartColor)
+                        .frame(width: 9, height: 9)
+                    Text("")
                 }
-            }
-            .offset(y: -20)
-            ForEach(chartData, id: \.self) { val in
-                Spacer()
-                let yvalue = Swift.min(CGFloat(Double((Int(frameHeight) * val.y_axis))/maxRange), frameHeight)
-                Group {
+                .padding()
+                
+                HStack(alignment: .lastTextBaseline) {
                     VStack {
-                        ZStack(alignment: .bottom) {
-                            Rectangle()
-                                .fill(barBackgroundColor)
-                                .frame(width: barWidth, height: frameHeight)
-                                .cornerRadius(barCornerRadius)
-                            Rectangle()
-                                .fill(barForegroundColor)
-                                .frame(width: barWidth, height: CGFloat(yvalue))
-                                .cornerRadius(barCornerRadius)
+                        ForEach(Array(stride(from: 0, to: highRange, by: diff)).reversed(), id: \.self) { index in // (Step == 5) not 1
+                            Spacer()
+                            Text("$\(Int(index))").foregroundColor(y_axis_fontColor)
+                            //.regular(size: 11.0, color: SPColor.lightGreyText)
+                            Spacer()
                         }
-                        Text("\(val.x_axis)").foregroundColor(x_axis_fontColor)
-                        //                                    .regular(size: 11.0, color: x_axis_fontColor)
+                    }
+                    .offset(y: -20)
+                    ForEach(chartData, id: \.self) { val in
+                        Spacer()
+                        let yvalue = Swift.min(CGFloat(Double((Int(frameHeight) * val.y_axis))/maxRange), frameHeight)
+                        Group {
+                            VStack {
+                                ZStack(alignment: .bottom) {
+                                    Rectangle()
+                                        .fill(barBackgroundColor)
+                                        .frame(width: barWidth, height: frameHeight)
+                                        .cornerRadius(barCornerRadius)
+                                    Rectangle()
+                                        .fill(barForegroundColor)
+                                        .frame(width: barWidth, height: CGFloat(yvalue))
+                                        .cornerRadius(barCornerRadius)
+                                }
+                                Text("\(val.x_axis)").foregroundColor(x_axis_fontColor)
+                                //                                    .regular(size: 11.0, color: x_axis_fontColor)
+                            }
+                        }
+                        Spacer()
+                        //.frame(width: UIScreen.main.bounds.width/CGFloat(chartData.count + 10))
                     }
                 }
-                Spacer()
-                //.frame(width: UIScreen.main.bounds.width/CGFloat(chartData.count + 10))
+                .frame(width: frameWidth + 60, height: 300)
+            }
+            if showLineChart {
+                LineChartView(dataPoints: self.linePoints(data: self.chartData), lineColor: lineChartColor, lineWidth: lineWidth, outerCircleColor: .blue, innerCircleColor: .red)
             }
         }
-        .frame(width: frameWidth + 60, height: 300)
+    }
+    
+    private func linePoints(data: [BarChartData]) -> [Double] {
+        var arrPoints = [Double]()
+        for val in data {
+            arrPoints.append(Double(val.y_axis))
+        }
+        return arrPoints
     }
 }
 
