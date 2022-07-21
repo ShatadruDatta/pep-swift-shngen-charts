@@ -16,13 +16,15 @@ public struct BarChartView: View {
     var barCornerRadius: Double
     var x_axis_fontColor: Color
     var y_axis_fontColor: Color
-    var barChartRepresentation: String
-    var showLineChart: Bool
-    var lineChartColor: Color
-    var lineWidth: Double
-    var lineChartRepresentation: String
+//    var barChartRepresentation: String
+//    var showLineChart: Bool
+//    var lineChartColor: Color
+//    var lineWidth: Double
+//    var lineChartRepresentation: String
     
-    public init(chartData: [BarChartData], highRange: Double, maxRange: Double, diff: Double, frameWidth: Double, barWidth: Double, barBackgroundColor: Color, barForegroundColor: Color, barCornerRadius: Double, x_axis_fontColor: Color, y_axis_fontColor: Color, barChartRepresentation: String, showLineChart: Bool, lineChartColor: Color, lineWidth: Double, lineChartRepresentation: String) {
+    //, barChartRepresentation: String, showLineChart: Bool, lineChartColor: Color, lineWidth: Double, lineChartRepresentation: String
+    
+    public init(chartData: [BarChartData], highRange: Double, maxRange: Double, diff: Double, frameWidth: Double, barWidth: Double, barBackgroundColor: Color, barForegroundColor: Color, barCornerRadius: Double, x_axis_fontColor: Color, y_axis_fontColor: Color) {
         self.chartData = chartData
         self.highRange = highRange
         self.maxRange = maxRange
@@ -34,29 +36,29 @@ public struct BarChartView: View {
         self.barCornerRadius = barCornerRadius
         self.x_axis_fontColor = x_axis_fontColor
         self.y_axis_fontColor = y_axis_fontColor
-        self.barChartRepresentation = barChartRepresentation
-        self.showLineChart = showLineChart
-        self.lineChartColor = lineChartColor
-        self.lineWidth = lineWidth
-        self.lineChartRepresentation = lineChartRepresentation
+//        self.barChartRepresentation = barChartRepresentation
+//        self.showLineChart = showLineChart
+//        self.lineChartColor = lineChartColor
+//        self.lineWidth = lineWidth
+//        self.lineChartRepresentation = lineChartRepresentation
     }
     
     public var body: some View {
-        ZStack {
-            VStack(alignment: .leading) {
-                HStack(alignment: .center) {
-                    Spacer()
-                    Circle()
-                        .fill(barForegroundColor)
-                        .frame(width: 9, height: 9)
-                    Text("")
-                    Circle()
-                        .fill(lineChartColor)
-                        .frame(width: 9, height: 9)
-                    Text("")
-                }
-                .padding()
-                
+//        ZStack {
+//            VStack(alignment: .leading) {
+//                HStack(alignment: .center) {
+//                    Spacer()
+//                    Circle()
+//                        .fill(barForegroundColor)
+//                        .frame(width: 9, height: 9)
+//                    Text(barChartRepresentation)
+//                    Circle()
+//                        .fill(lineChartColor)
+//                        .frame(width: 9, height: 9)
+//                    Text(lineChartRepresentation)
+//                }
+//                .padding()
+
                 HStack(alignment: .lastTextBaseline) {
                     VStack {
                         ForEach(Array(stride(from: 0, to: highRange, by: diff)).reversed(), id: \.self) { index in // (Step == 5) not 1
@@ -87,15 +89,14 @@ public struct BarChartView: View {
                             }
                         }
                         Spacer()
-                        //.frame(width: UIScreen.main.bounds.width/CGFloat(chartData.count + 10))
                     }
                 }
                 .frame(width: frameWidth + 60, height: 300)
-            }
-            if showLineChart {
-                LineChartView(dataPoints: self.linePoints(data: self.chartData), lineColor: lineChartColor, lineWidth: lineWidth, outerCircleColor: .blue, innerCircleColor: .red)
-            }
-        }
+            //}
+//            if showLineChart {
+//                LineChartView(dataPoints: self.linePoints(data: self.chartData), lineColor: lineChartColor, lineWidth: lineWidth, outerCircleColor: .blue, innerCircleColor: .red)
+//            }
+//        }
     }
     
     private func linePoints(data: [BarChartData]) -> [Double] {
